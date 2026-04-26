@@ -286,7 +286,7 @@ demo = gr.Interface(
         ["https://perplexity.ai"],
         ["https://hubspot.com"],
     ],
-    allow_flagging="never",
+    flagging_mode="never",
 )
 
 if __name__ == "__main__":
