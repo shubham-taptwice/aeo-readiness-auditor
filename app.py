@@ -132,13 +132,17 @@ def audit(url):
     for s in ld_scripts:
         try:
             d = json.loads(s.string or "{}")
-            t = d.get("@type", "")
-            if isinstance(t, list):
-                ld_types.extend(t)
-            elif t:
-                ld_types.append(t)
-            if t == "FAQPage" or (isinstance(t, list) and "FAQPage" in t):
-                faq_found = True
+            items = d.get("@graph", [d])
+            if not isinstance(items, list):
+                items = [d]
+            for item in items:
+                t = item.get("@type", "")
+                if isinstance(t, list):
+                    ld_types.extend(t)
+                elif t:
+                    ld_types.append(t)
+                if t == "FAQPage" or (isinstance(t, list) and "FAQPage" in t):
+                    faq_found = True
         except:
             pass
     if ld_types:
