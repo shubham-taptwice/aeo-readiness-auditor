@@ -286,9 +286,8 @@ demo = gr.Interface(
         ["https://perplexity.ai"],
         ["https://hubspot.com"],
     ],
-    theme=gr.themes.Soft(),
     allow_flagging="never",
 )
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(theme=gr.themes.Soft())
