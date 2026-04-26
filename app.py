@@ -183,7 +183,7 @@ def audit(url):
             score += 15
 
         # Check for wildcard Disallow
-        if re.search(r"User-agent:\s*\*\s*\nDisallow:\s*/", robots_text, re.IGNORECASE):
+        if re.search(r"User-agent:\s*\*\s*\nDisallow:\s*/\s*$", robots_text, re.IGNORECASE | re.MULTILINE):
             results.append("❌ **Wildcard block**: `Disallow: /` for all bots — blocks everything including AI")
             score -= 10
     else:
