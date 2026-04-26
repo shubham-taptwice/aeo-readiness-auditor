@@ -54,11 +54,12 @@ def audit(url):
     title = title_tag.get_text(strip=True) if title_tag else ""
     if title:
         tlen = len(title)
-        if 40 <= tlen <= 65:
-            results.append(f"✅ **Meta Title** ({tlen} chars): `{title}`")
+        if tlen >= 40:
+            results.append(f"✅ **Meta Title** ({tlen} chars): `{title[:120]}`")
+            results.append("  ℹ️ AEO note: title length matters less than keyword clarity — AI engines read the full title")
             score += 10
-        elif tlen > 0:
-            results.append(f"⚠️ **Meta Title** ({tlen} chars — ideal: 40–65): `{title}`")
+        else:
+            results.append(f"⚠️ **Meta Title** ({tlen} chars — aim for 40+ chars with clear keywords): `{title}`")
             score += 5
     else:
         results.append("❌ **Meta Title**: Missing")
@@ -70,12 +71,16 @@ def audit(url):
     if desc:
         dlen = len(desc)
         is_question = any(desc.strip().startswith(q) for q in ["What", "How", "Why", "Who", "Which", "When", "Is ", "Are ", "Can ", "Does "]) or "?" in desc
-        if 120 <= dlen <= 160:
-            results.append(f"✅ **Meta Description** ({dlen} chars{'  — question-format' if is_question else ''}): `{desc[:100]}...`")
+        if dlen >= 120:
+            results.append(f"✅ **Meta Description** ({dlen} chars{'  — question-format' if is_question else ''}): `{desc[:120]}...`")
+            results.append("  ℹ️ AEO note: AI engines read full meta descriptions — prioritize clarity and keyword coverage over character limits")
             score += 10
-        else:
-            results.append(f"⚠️ **Meta Description** ({dlen} chars — ideal: 120–160): `{desc[:100]}...`")
+        elif dlen >= 60:
+            results.append(f"⚠️ **Meta Description** ({dlen} chars — aim for 120+ for full AEO signal): `{desc[:120]}`")
             score += 5
+        else:
+            results.append(f"⚠️ **Meta Description** ({dlen} chars — too short, expand with keywords and brand context): `{desc}`")
+            score += 2
     else:
         results.append("❌ **Meta Description**: Missing")
 
